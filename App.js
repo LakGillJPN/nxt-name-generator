@@ -1,9 +1,17 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, Image, Button } from 'react-native';
 
 export default function App() {
   const [num,setNum] = useState('0');
+  
+  const handleDay = (day) => {
+    setNum(day)
+  }
+
+  useEffect(() => {
+    console.log('num', num)
+  },[num])
 
 
   return (
@@ -18,9 +26,11 @@ export default function App() {
       <Text style={styles.title}>Name Generator</Text>
       <StatusBar style="auto"/>
       <View style={styles.birthday}>
-        <TextInput style={styles.input} defaultValue={num} />
+        <TextInput style={styles.input} onChangeText={handleDay} />
       </View>
-      <Button></Button>
+      <View style={styles.buttonContainer}>
+        <Button title="Get Name" style={styles.button}></Button>
+      </View>
     </View>
   );
 }
@@ -46,4 +56,11 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
   },
+  buttonContainer : {
+    backgroundColor: 'black',
+    borderRadius: '25px',
+  },
+  button: {
+    color: 'white'
+  }
 });
