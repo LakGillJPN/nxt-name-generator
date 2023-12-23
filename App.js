@@ -1,17 +1,29 @@
 import {React, useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, Image, Button } from 'react-native';
+import firstNameGen from './nameGenerator';
+import lastNameGen from './lastNameGen';
 
 export default function App() {
   const [num,setNum] = useState('0');
+  const [month, setMonth] = useState()
+  const [viewable, setViewable] = useState(false)
   
   const handleDay = (day) => {
     setNum(day)
   }
 
+  const handleMonth = (month) => {
+    setMonth(month)
+  }
+
+  const handlePress = () => {
+    setViewable(true)
+  }
+
   useEffect(() => {
-    console.log('num', num)
-  },[num])
+    console.log(viewable)
+  },[viewable])
 
 
   return (
@@ -28,9 +40,18 @@ export default function App() {
       <View style={styles.birthday}>
         <TextInput style={styles.input} onChangeText={handleDay} />
       </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Get Name" style={styles.button}></Button>
+      <View style={styles.birthday}>
+        <TextInput style={styles.input} onChangeText={handleMonth} />
       </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Get Name" style={styles.button} onPress={handlePress}></Button>
+      </View>
+
+      <View>
+       {viewable ? <Text style={color = 'black'}>{firstNameGen(num, 'M')} {lastNameGen(month)}</Text> : <Text></Text>}
+      </View>
+
+
     </View>
   );
 }
