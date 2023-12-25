@@ -1,16 +1,16 @@
 import {React, useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View, Image, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Button,  Alert, } from 'react-native';
 import firstNameGen from './nameGenerator';
 import lastNameGen from './lastNameGen';
 
 export default function App() {
-  const [num,setNum] = useState('0');
+  const [day,setDay] = useState();
   const [month, setMonth] = useState()
   const [viewable, setViewable] = useState(false)
-  
+
   const handleDay = (day) => {
-    setNum(day)
+    setDay(day)
   }
 
   const handleMonth = (month) => {
@@ -18,12 +18,23 @@ export default function App() {
   }
 
   const handlePress = () => {
-    setViewable(true)
-  }
+    Alert.prompt('Enter your birth month', '', (monthInput) => {
+      if (monthInput !== null) {
+        Alert.prompt('Enter your birth day', '', (dayInput) => {
+          if (dayInput !== null) {
+            setMonth(monthInput);
+            setDay(dayInput);
+            setViewable(true);
+          }
+        });
+      }
+    });
+  };
 
-  useEffect(() => {
-    console.log(viewable)
-  },[viewable])
+
+  // useEffect(() => {
+  //   console.log(viewable)
+  // },[viewable])
 
 
   return (
@@ -37,12 +48,6 @@ export default function App() {
       </View>
       <Text style={styles.title}>Name Generator</Text>
       <StatusBar style="auto"/>
-      <View style={styles.birthday}>
-        <TextInput style={styles.input} onChangeText={handleDay} />
-      </View>
-      <View style={styles.birthday}>
-        <TextInput style={styles.input} onChangeText={handleMonth} />
-      </View>
       <View style={styles.buttonContainer}>
         <Button title="Get Name" style={styles.button} onPress={handlePress}></Button>
       </View>
